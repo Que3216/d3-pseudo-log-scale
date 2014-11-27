@@ -2,13 +2,22 @@
   A log scale that can handle positive and negative values on the same graph.
 
   Not really an honest scale - it has a disconuity.
+
+  linearPartDistance is the distance below and above the zero point at which
+  the scale switches from being logarithmic to being linear.
 */
-d3.scale.genericLog = function() {
-    return GenericLog();
+d3.scale.genericLog = function(linearPartDistance) {
+    return GenericLog(linearPartDistance);
 };
 
-function GenericLog() {
+function GenericLog(d) {
   
+    if (d == undefined) {
+      d = 10;
+    }
+
+    var linearPartDistance = 10;
+
     var logScale = d3.scale.log();
     var linScale = d3.scale.linear();
 
@@ -16,9 +25,6 @@ function GenericLog() {
     var domain = [-10, 10];
     var range = [0, 100];
     var zeroPoint = 50;
-
-    // Constant
-    var linearPartDistance = 10;
 
     linScale.domain([-linearPartDistance, +linearPartDistance]);
 
